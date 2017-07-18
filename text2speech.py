@@ -4,8 +4,37 @@ import sys, traceback
 from boto3 import Session
 from botocore.exceptions import BotoCoreError, ClientError
 from contextlib import closing
+from random import randint
 
 class VoiceSynthesizer(object):
+
+    greetings = ["Hallo",
+                 "Moin",
+                 "Servus",
+                 "Guten tag",
+                 "Huhu",
+                 "Na",
+                 "Hi",
+                 "Tach"]
+
+    smalltalk = ["schoen dich zu sehen",
+                 "du bist ein koenig",
+                 "ich wuensch dir einen schoenen tag",
+                 "ich hoffe du hast einen schoenen tag",
+                 "wie is et?",
+                 "heute nur mit reservierung",
+                 "ich habe dich vermisst",
+                 "du schaust aber heute super aus",
+                 "interessante frisur",
+                 "wenn ich koennte, wuerde ich dich umarmen" ]
+
+    # %greetings %name, %smalltalk
+    def say_hello(self, name):
+        r1 = randint(0, self.greetings.__len__()-1)
+        r2 = randint(0, self.smalltalk.__len__()-1)
+        sentence = self.greetings[r1] + " " + name + " " + self.smalltalk[r2]
+        self.say(sentence)
+
     def __init__(self, volume=0.1):
        pygame.mixer.init()
        self._volume = volume
@@ -23,7 +52,7 @@ class VoiceSynthesizer(object):
        try:
           # Request speech synthesis
           response = self.__polly.synthesize_speech(Text=text,
-                        OutputFormat="ogg_vorbis",VoiceId="Brian")
+                        OutputFormat="ogg_vorbis",VoiceId="Mads")
        except (BotoCoreError, ClientError) as error:
           # The service returned an error
           print(error)
@@ -57,7 +86,7 @@ if __name__ == "__main__":
     debugging = False
     try:
        synthesizer = VoiceSynthesizer(0.1)
-       synthesizer.say("Attention blue zone is for loading and unloading only.")
+       synthesizer.say_hello("Olli")
     except:
        print "exception occurred!"
        exc_type, exc_value, exc_traceback = sys.exc_info()
