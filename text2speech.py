@@ -8,6 +8,55 @@ from random import randint
 
 class VoiceSynthesizer(object):
 
+    voices = ['Geraint',
+              'Gwyneth',
+              'Mads',
+              'Naja',
+              'Hans',
+              'Marlene',
+              'Nicole',
+              'Russell',
+              'Amy',
+              'Brian',
+              'Emma',
+              'Raveena',
+              'Ivy',
+              'Joanna',
+              'Joey',
+              'Justin',
+              'Kendra',
+              'Kimberly',
+              'Salli',
+              'Conchita',
+              'Enrique',
+              'Miguel',
+              'Penelope',
+              'Chantal',
+              'Celine',
+              'Mathieu',
+              'Dora',
+              'Karl',
+              'Carla',
+              'Giorgio',
+              'Mizuki',
+              'Liv',
+              'Lotte',
+              'Ruben',
+              'Ewa',
+              'Jacek',
+              'Jan',
+              'Maja',
+              'Ricardo',
+              'Vitoria',
+              'Cristiano',
+              'Ines',
+              'Carmen',
+              'Maxim',
+              'Tatyana',
+              'Astrid',
+              'Filiz',
+              'Vicki']
+
     greetings = ["Hallo",
                  "Moin",
                  "Servus",
@@ -28,11 +77,18 @@ class VoiceSynthesizer(object):
                  "interessante frisur",
                  "wenn ich koennte, wuerde ich dich umarmen" ]
 
+    #import datetime as dt
+    #dt.datetime.now().hour
+    # datetime.datetime.today().weekday()
+
+
+    def rand_elem(self, some_list):
+        r = randint(0, some_list.__len__()-1)
+        return some_list[r];
+
     # %greetings %name, %smalltalk
     def say_hello(self, name):
-        r1 = randint(0, self.greetings.__len__()-1)
-        r2 = randint(0, self.smalltalk.__len__()-1)
-        sentence = self.greetings[r1] + " " + name + " " + self.smalltalk[r2]
+        sentence = self.rand_elem(self.greetings) + " " + name + " " + self.rand_elem(self.greetings)
         self.say(sentence)
 
     def __init__(self, volume=0.1):
@@ -52,7 +108,7 @@ class VoiceSynthesizer(object):
        try:
           # Request speech synthesis
           response = self.__polly.synthesize_speech(Text=text,
-                        OutputFormat="ogg_vorbis",VoiceId="Mads")
+                        OutputFormat="ogg_vorbis",VoiceId="Hans") # Marlene, VoiceId=self.rand_elem(self.voices)
        except (BotoCoreError, ClientError) as error:
           # The service returned an error
           print(error)
